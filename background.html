@@ -1,0 +1,18 @@
+<html>
+
+<script content="text/javascript">
+
+
+
+
+chrome.browserAction.onClicked.addListener(function(tab) {
+  chrome.tabs.create({'url': chrome.extension.getURL('popup.html')}, function(tab) {
+    // Tab opened.
+  });
+});
+
+
+
+  
+</script>
+</html>
