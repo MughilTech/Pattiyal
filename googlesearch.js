@@ -111,10 +111,23 @@ function SearchCompleted(response)
             icon = "class='cblog' title='Technical blog'";
         }
 
-	  html += "<div><div class='hcHead2'><a " + icon + " href='#' data-url='"+ item.link +"'> " + title + "</a></div>";
+	  html += "<div><div class='hcHead2'>"+i+"<a " + icon + " href='"+ item.link +"' data-url='"+ item.link +"'> " + title + "</a></div>";
         html += item.htmlSnippet + "</div>";
     }
 
     $("#output").html(html);
-$('.hcHead2 a').bind('click', function(e){$('#loadFrame')[0].src = this.getAttribute('data-url');})
+$('.hcHead2 a').bind('click', function(e){$('#loadFrame')[0].src = this.getAttribute('data-url');e.preventDefault();})
+addShortcuts();
+}
+
+
+function addShortcuts()
+{
+  $.each($('#output a'), function(index, value){
+ var num = index 
+  shortcut.add(num.toString(),function() {
+    value.click();
+    });
+  });
+
 }

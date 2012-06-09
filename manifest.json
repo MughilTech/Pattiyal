@@ -1,8 +1,8 @@
 ﻿{
-  "name": "My First Extension",
+  "name": "Pattiyal",
   "version": "1.0",
-"background_page": "background.html",
-  "description": "The first extension that I made.",
+  "background_page": "background.html",
+  "description": "Enhancing your search experience with Google",
   "browser_action": {
     "default_icon": "icon.png"
      
