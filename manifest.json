@@ -12,8 +12,7 @@
     {
 	  "all_frames": true,
       "matches": [ "http://*/*", "https://*/*" ],
-      "js": ["myscript.js"]
-	  
+      "js": ["jquery.min.js", "myscript.js" ]	  
     }
 	]
 }
