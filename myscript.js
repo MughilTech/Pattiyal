@@ -1,23 +1,15 @@
 $(document).ready(function(){
+	$("h3.r").each(function(index,element){
+ 	go_button = $('<input type="button" value="Go"></input>');
+ 	go_button.click(function(e){
+ 		console.log(e.target);
+ 		frameIt($('h3.r a', e.target.parentNode)[0].href);
+ 	});
+ 	$(element).after(go_button);
+ });
+   var some = new MutationSummary({ callback: handleSummary, 
+   	queries: [{ element: "h3.r" }]});
 	
-	$('body').click(function(e){
-		var node;
-		if(e.target.nodeName == "EM")
-		{
-			if(e.target.parentElement.nodeName=="A" && e.target.parentElement.className == "l")
-				node = e.target.parentElement;
-		}
-		if(e.target.nodeName =="A" && e.target.className == "l")
-		{
-			node = e.target;
-		}
-		if(node != null)
-		{
-			frameIt(node.href);
-			e.preventDefault();
-			e.stopPropagation();
-		}
-	});
 	var stylesheetDoc = document.styleSheets[0];
 	if (stylesheetDoc != null)
 		setScrollbarStyle(stylesheetDoc);
@@ -29,6 +21,18 @@ function setScrollbarStyle(stylesheetDoc){
 	stylesheetDoc.insertRule('::-webkit-scrollbar-track{z-index:1000; position:absolute;white-space:nowrap;-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);-webkit-border-radius: 10px;border-radius: 10px;}',1);
 	stylesheetDoc.insertRule('::-webkit-scrollbar-thumb {-webkit-border-radius: 10px;border-radius: 10px;background: rgba(0,0,0,0.8); -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);}',2);
 	stylesheetDoc.insertRule('::-webkit-scrollbar-thumb:window-inactive {background: rgba(0,0,0,0.4); }',3);
+}
+
+function handleSummary(e)
+{
+ $(e[0].added).each(function(index,element){
+ 	go_button = $('<input type="button" value="Go"></input>');
+ 	go_button.click(function(e){
+ 		console.log(e.target);
+ 		frameIt($('h3.r a', e.target.parentNode)[0].href);
+ 	});
+ 	$(element).after(go_button);
+ });
 }
 
 function frameIt(url)

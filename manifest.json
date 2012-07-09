@@ -12,7 +12,7 @@
     {
 	  "all_frames": true,
       "matches": [ "http://*/*", "https://*/*" ],
-      "js": ["jquery.min.js", "myscript.js" ]	  
+      "js": ["jquery.min.js","mutation_summary.js", "myscript.js" ]	  
     }
 	]
 }
