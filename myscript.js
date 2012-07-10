@@ -12,6 +12,7 @@ $(document).ready(function(){
 	var stylesheetDoc = document.styleSheets[0];
 	if (stylesheetDoc != null)
 		setScrollbarStyle(stylesheetDoc);
+	addShortcuts();
 });
 
 function setScrollbarStyle(stylesheetDoc){
@@ -32,13 +33,23 @@ function addShortcuts()
 	shortcut.add('s', function(){
 		$('#gbqfq').focus();
 		$('#gbqfq').select();
-	});
+	},{'disable_in_input':true});
 	shortcut.add('tab', function(){
 		navigateTab(true);
 	});
 	shortcut.add('shift+tab', function(){
 		navigateTab(false);
 	});
+	shortcut.addOn('p,enter', function(){
+		loadPattiyal();
+	}, {'disable_in_input':true});
+}
+
+function loadPattiyal()
+{
+var selectedNode = $('.pattiyal')[0];
+		if(selectedNode)
+		frameIt($('h3.r a', selectedNode)[0].href);
 }
 
 function navigateTab(moveForward)
@@ -58,6 +69,7 @@ function navigateTab(moveForward)
 	}
 	toBeHighlighted.addClass('pattiyal');
 	toBeHighlighted.css('background-color', '#BDBCBC');
+	$('#gbqfq').blur();
 }
 
 function handleSearchLinks(e)
@@ -77,7 +89,6 @@ function frameIt(url)
 {
 	if($('#pattiyal_frame').length == 0){
 		handleLeftNav();
-		addShortcuts();
 		var center_col = $('#center_col');
 		var cnt_width = $('#cnt').width();
 		var rcnt_width = $('#rcnt').width();

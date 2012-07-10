@@ -205,6 +205,13 @@ shortcut = {
 		else if(ele.attachEvent) ele.attachEvent('on'+opt['type'], func);
 		else ele['on'+opt['type']] = func;
 	},
+	'addOn':function(shortcut_combination,callback,opt){
+		var shortcutToMap = shortcut_combination.split(',');
+		for(var shortcutValue in shortcutToMap)
+		{
+			this.add(shortcutToMap[shortcutValue], callback, opt);
+		}
+	},
 
 	//Remove the shortcut - just specify the shortcut and I will remove the binding
 	'remove':function(shortcut_combination) {
