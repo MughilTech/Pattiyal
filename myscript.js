@@ -1,13 +1,13 @@
 $(document).ready(function(){
 	$("h3.r").each(function(index,element){
- 	go_button = $('<input type="button" value="Go"></input>');
- 	go_button.click(function(e){
- 		frameIt($('h3.r a', e.target.parentNode)[0].href);
- 	});
- 	$(element).after(go_button);
- });
-   var searchLink = new MutationSummary({ callback: handleSearchLinks, 
-   	queries: [{ element: "h3.r" }]});
+		go_button = $('<input type="button" value="Go"></input>');
+		go_button.click(function(e){
+			frameIt($('h3.r a', e.target.parentNode)[0].href);
+		});
+		$(element).after(go_button);
+	});
+	var searchLink = new MutationSummary({ callback: handleSearchLinks, 
+		queries: [{ element: "h3.r" }]});
 
 	var stylesheetDoc = document.styleSheets[0];
 	if (stylesheetDoc != null)
@@ -23,45 +23,54 @@ function setScrollbarStyle(stylesheetDoc){
 
 function handleLeftNav()
 {
-    $('#leftnavc')[0].setAttribute("hidden");	
+	$('#leftnavc')[0].setAttribute("hidden");	
 	$('#center_col').css('margin-left', '0px');
-	
 }
 
 function addShortcuts()
 {
 	shortcut.add('s', function(){
 		$('#gbqfq').focus();
-		 $('#gbqfq').select();
+		$('#gbqfq').select();
 	});
 	shortcut.add('tab', function(){
-		
-			var currentSelection = $('.vsc.pattiyal:first');
-			var searchList = $('.vsc');
-			var toBeHighlighted = $('.vsc:first');
-			if(currentSelection.length != 0)
-			{
-				currentSelection.removeClass('pattiyal');
-				currentSelection.css('background-color', 'white');
-				var nextIndex = jQuery.inArray(currentSelection[0], searchList) + 1;
-				toBeHighlighted = $(searchList[nextIndex]);
-			}
-			toBeHighlighted.addClass('pattiyal');
-			toBeHighlighted.css('background-color', 'grey');
+		navigateTab(true);
 	});
+	shortcut.add('shift+tab', function(){
+		navigateTab(false);
+	});
+}
+
+function navigateTab(moveForward)
+{
+	var currentSelection = $('.vsc.pattiyal:first');
+	var searchList = $('.vsc');
+	var toBeHighlighted = $('.vsc:first');
+	if(currentSelection.length != 0)
+	{
+		currentSelection.removeClass('pattiyal');
+		currentSelection.css('background-color', 'white');
+		var currentPosition = jQuery.inArray(currentSelection[0], searchList);
+		var nextIndex = moveForward ? currentPosition + 1 : currentPosition - 1;
+		nextIndex = nextIndex == searchList.length ? 0 :nextIndex;
+		nextIndex = nextIndex == -1 ? searchList.length - 1 : nextIndex 
+		toBeHighlighted = $(searchList[nextIndex]);
+	}
+	toBeHighlighted.addClass('pattiyal');
+	toBeHighlighted.css('background-color', '#BDBCBC');
 }
 
 function handleSearchLinks(e)
 {
- $(e[0].added).each(function(index,element){
- 	go_button = $('<input type="button" value="Go"></input>');
- 	go_button.click(function(e){
- 		console.log(e.target);
- 		frameIt($('h3.r a', e.target.parentNode)[0].href);
- 	});
- 	$(element).after(go_button);
- });
- $('div.vspib').remove();
+	$(e[0].added).each(function(index,element){
+		go_button = $('<input type="button" value="Go"></input>');
+		go_button.click(function(e){
+			console.log(e.target);
+			frameIt($('h3.r a', e.target.parentNode)[0].href);
+		});
+		$(element).after(go_button);
+	});
+	$('div.vspib').remove();
 }
 
 function frameIt(url)
