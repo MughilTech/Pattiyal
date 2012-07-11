@@ -6,8 +6,14 @@ $(document).ready(function(){
 		});
 		$(element).after(go_button);
 	});
+
 	var searchLink = new MutationSummary({ callback: handleSearchLinks, 
 		queries: [{ element: "h3.r" }]});
+
+	var googleNavLink = new MutationSummary({ callback: removeIt, 
+		queries: [{ element: "#knavm" }]});
+	var googleNavLink = new MutationSummary({ callback: removeIt, 
+		queries: [{ element: "div.vspib" }]});
 
 	var stylesheetDoc = document.styleSheets[0];
 	if (stylesheetDoc != null)
@@ -34,22 +40,25 @@ function addShortcuts()
 		$('#gbqfq').focus();
 		$('#gbqfq').select();
 	},{'disable_in_input':true});
-	shortcut.add('tab', function(){
+	shortcut.addOn('tab,down', function(){
 		navigateTab(true);
 	});
-	shortcut.add('shift+tab', function(){
+	shortcut.addOn('shift+tab,up', function(){
 		navigateTab(false);
 	});
-	shortcut.addOn('p,enter', function(){
+	shortcut.addOn('right,enter', function(){
 		loadPattiyal();
-	}, {'disable_in_input':true});
+	});
 }
 
 function loadPattiyal()
 {
-var selectedNode = $('.pattiyal')[0];
-		if(selectedNode)
+	var selectedNode = $('.pattiyal')[0];
+	if(selectedNode)
+	{
 		frameIt($('h3.r a', selectedNode)[0].href);
+		$('#pattiyal_frame iframe').focus();
+	}
 }
 
 function navigateTab(moveForward)
@@ -60,7 +69,7 @@ function navigateTab(moveForward)
 	if(currentSelection.length != 0)
 	{
 		currentSelection.removeClass('pattiyal');
-		currentSelection.css('background-color', 'white');
+		currentSelection.css('background-color', '');
 		var currentPosition = jQuery.inArray(currentSelection[0], searchList);
 		var nextIndex = moveForward ? currentPosition + 1 : currentPosition - 1;
 		nextIndex = nextIndex == searchList.length ? 0 :nextIndex;
@@ -69,20 +78,27 @@ function navigateTab(moveForward)
 	}
 	toBeHighlighted.addClass('pattiyal');
 	toBeHighlighted.css('background-color', '#BDBCBC');
+	$('input[value="Go"]',toBeHighlighted).show();
+	$('input[value="Go"]',currentSelection).hide();
 	$('#gbqfq').blur();
 }
 
 function handleSearchLinks(e)
 {
 	$(e[0].added).each(function(index,element){
-		go_button = $('<input type="button" value="Go"></input>');
+		go_button = $('<input type="button" hidden value="Go"></input>');
 		go_button.click(function(e){
 			console.log(e.target);
 			frameIt($('h3.r a', e.target.parentNode)[0].href);
 		});
 		$(element).after(go_button);
+		go_button.hide();
 	});
 	$('div.vspib').remove();
+}
+function removeIt(e)
+{
+	$(e[0].added).remove();
 }
 
 function frameIt(url)
