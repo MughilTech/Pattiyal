@@ -7,11 +7,11 @@
     "default_icon": "icon.png"
      
   },
-  "permissions": [  ],
+  "permissions": [ ],
 "content_scripts": [
     {
 	  "all_frames": true,
-      "matches": [ "http://*/*", "https://*/*" ],
+      "matches": [ "https://www.google.co.in/*" ],
       "js": ["jquery.min.js","mutation_summary.js", "shortcut.js", "myscript.js" ]	  
     }
 	]
