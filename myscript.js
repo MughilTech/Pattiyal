@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	$("h3.r").each(function(index,element){
-		go_button = $('<input type="button" value="Go"></input>');
+		go_button = $('<input type="button" class="pattiyalLink" value="Open it here"></input>');
 		go_button.click(function(e){
 			frameIt($('h3.r a', e.target.parentNode)[0].href);
 		});
@@ -50,16 +50,29 @@ function addShortcuts()
 	});
 	shortcut.addOn('right,enter', function(){
 		loadPattiyal();
-	});
+	},{'disable_in_input':true});
+	shortcut.addOn('ctrl+enter,meta+enter', function(){
+		loadNewTab();
+	},{'disable_in_input':true});
+	
 }
 
 function loadPattiyal()
 {
-	var selectedNode = $('.pattiyal')[0];
+	var selectedNode = $('.pattiyal h3.r a')[0];
 	if(selectedNode)
 	{
-		frameIt($('h3.r a', selectedNode)[0].href);
-		$('#pattiyal_frame iframe').focus();
+		frameIt(selectedNode.href);
+	}
+}
+
+function loadNewTab()
+{
+	var selectedNode = $('.pattiyal h3.r a')[0];
+	if(selectedNode)
+	{
+		window.open(selectedNode.href,'_blank');
+		window.focus();
 	}
 }
 
@@ -85,31 +98,46 @@ function highlightSelection(toBeHighlighted)
 	//remove current selection
 	var currentSelection = $('.vsc.pattiyal:first');
 	currentSelection.removeClass('pattiyal');
-	currentSelection.css('background-color', '');
-	$('input[value="Go"]',currentSelection).hide();
+	$('h3.r a', currentSelection).removeClass('pattiyalSearchLink');
+	$('input[class="pattiyalLink"]',currentSelection).hide();
 
 	//highlight given selection
 	toBeHighlighted.addClass('pattiyal');
-	toBeHighlighted.css('background-color', '#BDBCBC');
-	$('input[value="Go"]',toBeHighlighted).show();
+	$('h3.r a', toBeHighlighted).addClass('pattiyalSearchLink');
+
+	$('input[class="pattiyalLink"]',toBeHighlighted).show();
 	
 	$('#gbqfq').blur();
 }
 
 function handleSearchLinks(e)
 {
-	$(e[0].added).each(function(index,element){
-		go_button = $('<input type="button" value="Go"></input>');
+	initializePattiyal($(e[0].added));
+}
+
+function initializePattiyal(searchLinks)
+{
+	searchLinks.each(function(index,element){
+		//go_button
+		go_button = $('<input type="button" class="pattiyalLink" value="Open it here"></input>');
 		go_button.click(function(e){
-			console.log(e.target);
 			frameIt($('h3.r a', e.target.parentNode)[0].href);
 		});
 		$(element).after(go_button);
+		go_button.hide();
+
+		//new_tab_button
+		newTab = $('<input type="button" class="pattiyalLink" value="Open in new tab"></input>');
+		newTab.click(function(e){
+			loadNewTab();
+		});
+		go_button.after(newTab);
 		$($(element).closest('.vsc')).hover(function(e){
 			var vsc = $(e.target).closest('.vsc');
 			highlightSelection(vsc);
 		});
 		go_button.hide();
+		newTab.hide();
 	});
 	$('div.vspib').remove();
 }
