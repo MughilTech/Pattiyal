@@ -5,7 +5,9 @@ $(document).ready(function(){
 			frameIt($('h3.r a', e.target.parentNode)[0].href);
 		});
 		$(element).after(go_button);
+		go_button.hide();
 	});
+
 
 	var searchLink = new MutationSummary({ callback: handleSearchLinks, 
 		queries: [{ element: "h3.r" }]});
@@ -67,31 +69,46 @@ function navigateTab(moveForward)
 	var searchList = $('.vsc');
 	var toBeHighlighted = $('.vsc:first');
 	if(currentSelection.length != 0)
-	{
-		currentSelection.removeClass('pattiyal');
-		currentSelection.css('background-color', '');
+	{	
 		var currentPosition = jQuery.inArray(currentSelection[0], searchList);
 		var nextIndex = moveForward ? currentPosition + 1 : currentPosition - 1;
 		nextIndex = nextIndex == searchList.length ? 0 :nextIndex;
 		nextIndex = nextIndex == -1 ? searchList.length - 1 : nextIndex 
 		toBeHighlighted = $(searchList[nextIndex]);
 	}
+
+	highlightSelection(toBeHighlighted);
+}
+
+function highlightSelection(toBeHighlighted)
+{
+	//remove current selection
+	var currentSelection = $('.vsc.pattiyal:first');
+	currentSelection.removeClass('pattiyal');
+	currentSelection.css('background-color', '');
+	$('input[value="Go"]',currentSelection).hide();
+
+	//highlight given selection
 	toBeHighlighted.addClass('pattiyal');
 	toBeHighlighted.css('background-color', '#BDBCBC');
 	$('input[value="Go"]',toBeHighlighted).show();
-	$('input[value="Go"]',currentSelection).hide();
+	
 	$('#gbqfq').blur();
 }
 
 function handleSearchLinks(e)
 {
 	$(e[0].added).each(function(index,element){
-		go_button = $('<input type="button" hidden value="Go"></input>');
+		go_button = $('<input type="button" value="Go"></input>');
 		go_button.click(function(e){
 			console.log(e.target);
 			frameIt($('h3.r a', e.target.parentNode)[0].href);
 		});
 		$(element).after(go_button);
+		$($(element).closest('.vsc')).hover(function(e){
+			var vsc = $(e.target).closest('.vsc');
+			highlightSelection(vsc);
+		});
 		go_button.hide();
 	});
 	$('div.vspib').remove();
