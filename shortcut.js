@@ -205,6 +205,7 @@ shortcut = {
 		else if(ele.attachEvent) ele.attachEvent('on'+opt['type'], func);
 		else ele['on'+opt['type']] = func;
 	},
+	//add multiple hot keys for same functionality
 	'addOn':function(shortcut_combination,callback,opt){
 		var shortcutToMap = shortcut_combination.split(',');
 		for(var shortcutValue in shortcutToMap)

@@ -146,25 +146,47 @@ function removeIt(e)
 	$(e[0].added).remove();
 }
 
+function getUrl(googleURl)
+{
+	var url_position = googleURl.indexOf ('&url=');
+	url_position += 5;
+	url_text = googleURl.substr (url_position);
+	url_text = unescape(url_text);
+	url_text =  url_text.replace (/ /g, '%20');
+	url_text.substr(3);
+}
+
 function frameIt(url)
 {
+	var center_col = $('#center_col');
+	var cnt_width = $('#cnt').width();
+	var rcnt_width = $('#rcnt').width();
+	$('#rcnt').width(cnt_width);
+	$('#rhscol').remove();
+	frame_width = cnt_width - (center_col.width() + parseInt(center_col.css('margin-left').split("px")[0]) + 100 )
+	frame_height = center_col.css('height');
+	frame_left = center_col.css('margin-right');
+
 	if($('#pattiyal_frame').length == 0){
 		handleLeftNav();
-		var center_col = $('#center_col');
-		var cnt_width = $('#cnt').width();
-		var rcnt_width = $('#rcnt').width();
-		$('#rcnt').width(cnt_width);
-		$('#rhscol').remove();
-		frame_width = cnt_width - (center_col.width() + parseInt(center_col.css('margin-left').split("px")[0]) + 100 )
-		frame_height = center_col.css('height');
-		frame_left = center_col.css('margin-right');
-
 		center_col.css("float", "left");
+		center_col.after('<div id="pattiyal_frame"></div>');
+	}
 
-		center_col.after('<div id="pattiyal_frame">\
-			<iframe src="'+url+'" style="width:'+frame_width.toString()+'px;height:'+frame_height+'; margin-left:-'+frame_left.toString()+'"></iframe></div>');
+	if(url.indexOf("stackoverflow.com") == -1)
+	{
+		$('#pattiyal_frame .pattiyalStacktack').remove();
+		$('#pattiyal_frame iframe').remove();
+		$('#pattiyal_frame').append('<iframe src="'+url+'" style="width:'+frame_width.toString()+'px;height:'+frame_height+'; margin-left:-'+frame_left.toString()+'"></iframe>');
 	}
 	else
-		$('#pattiyal_frame iframe')[0].src = url;
-
+	{
+		var urlArray = url.split('/');
+		stackQId = urlArray[urlArray.indexOf('questions')+1];
+		$('.pattiyalStacktack').remove();
+		stackDiv = $('<div class="pattiyalStacktack" id="stacktack-'+ stackQId +'" style="overflow-y:scroll; position:absolute;width:'+frame_width.toString()+'px;height:'+frame_height+'; margin-left:'+center_col.width().toString()+'px "></div>');
+		$("#pattiyal_frame").append(stackDiv);
+		$('#pattiyal_frame iframe').remove();
+		$(document).stacktack();
+	}
 }
