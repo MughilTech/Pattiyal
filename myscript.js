@@ -158,6 +158,7 @@ function getUrl(googleURl)
 
 function frameIt(url)
 {
+	handleLeftNav();
 	var center_col = $('#center_col');
 	var cnt_width = $('#cnt').width();
 	var rcnt_width = $('#rcnt').width();
@@ -168,7 +169,6 @@ function frameIt(url)
 	frame_left = center_col.css('margin-right');
 
 	if($('#pattiyal_frame').length == 0){
-		handleLeftNav();
 		center_col.css("float", "left");
 		center_col.after('<div id="pattiyal_frame"></div>');
 	}
