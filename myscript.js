@@ -1,12 +1,6 @@
 $(document).ready(function(){
-	$("h3.r").each(function(index,element){
-		go_button = $('<input type="button" class="pattiyalLink" value="Open it here"></input>');
-		go_button.click(function(e){
-			frameIt($('h3.r a', e.target.parentNode)[0].href);
-		});
-		$(element).after(go_button);
-		go_button.hide();
-	});
+	if($("h3.r").length != 0)
+		initializePattiyal($("h3.r"));
 
 
 	var searchLink = new MutationSummary({ callback: handleSearchLinks, 

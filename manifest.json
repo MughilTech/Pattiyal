@@ -7,12 +7,12 @@
     "default_icon": "icon.png"
      
   },
-  "permissions": [ "http://api.stackoverflow.com/"],
+  "permissions": [ "http://api.stackoverflow.com/", "http://app.stacktack.com/"],
 "content_scripts": [
     {
 	  "all_frames": true,
       "matches": [ "https://www.google.co.in/*" ],
-      "css": ["mystyle.css"],
+      "css": ["mystyle.css", "stacktack.min.css"],
       "js": ["jquery.min.js", "jquery.stacktack.min.js","mutation_summary.js", "shortcut.js", "myscript.js" ]	  
     }
 	]
